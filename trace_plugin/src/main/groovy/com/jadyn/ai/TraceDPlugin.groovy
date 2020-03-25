@@ -1,6 +1,6 @@
 package com.jadyn.ai
 
-
+import com.android.build.gradle.AppExtension
 import com.jadyn.ai.extension.TraceDExtension
 import com.jadyn.ai.transform.TraceDTransform
 import org.gradle.api.GradleException
@@ -16,9 +16,7 @@ class TraceDPlugin implements Plugin<Project> {
             throw new GradleException('application plugin required')
         }
         // project配置成功均会调用的函数
-        project.afterEvaluate {
-            def android = project.extensions.android
-            android.registerTransform(new TraceDTransform(project))
-        }
+        def android = project.extensions.getByType(AppExtension)
+        android.registerTransform(new TraceDTransform(project))
     }
 }

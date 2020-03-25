@@ -21,13 +21,9 @@ import java.util.HashSet;
 
 public class TraceConfig {
 
-    private String pacFilePath = "";
+    public String pacFilePath = "";
 
     private HashSet<String> pacListSet;
-
-    TraceConfig(String pacFilePath) {
-        this.pacFilePath = pacFilePath;
-    }
 
     public void parseConfig() {
         File file = new File(pacFilePath);

@@ -1,0 +1,10 @@
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: uri('/Users/insta360/Insta360/maven'))
+        pom.groupId = 'com.jadyn.ai'
+        pom.artifactId = 'TraceDPlugin'
+        pom.version = '1.0.0'
+    }
+}

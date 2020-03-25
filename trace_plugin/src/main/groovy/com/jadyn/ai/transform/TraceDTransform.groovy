@@ -27,7 +27,7 @@ class TraceDTransform extends Transform {
 
     @Override
     String getName() {
-        return "TraceDMethod"
+        return "traceMethodTransform"
     }
 
     // 输入类型，选择class
@@ -49,23 +49,31 @@ class TraceDTransform extends Transform {
 
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
-        super.transform(transformInvocation)
+        println 'start transform 12'
         final boolean isIncremental = transformInvocation.isIncremental() && this.isIncremental()
-        final File rootOutput = new File(project.systrace.outputDir, "classes/${getName()}/")
-        if (!rootOutput.exists()) {
-            rootOutput.mkdirs()
-        }
+
         def sysTraceConfig = project.systrace
-        TraceConfig traceConfig = TraceConfig(sysTraceConfig.pacListFile)
+        TraceConfig traceConfig = new TraceConfig()
+        traceConfig.pacFilePath = sysTraceConfig.pacListFile
         traceConfig.parseConfig()
 
         TransformOutputProvider outputProvider = transformInvocation.outputProvider
+        // 非增量编译就全部删除掉
+        if (outputProvider != null) {
+            outputProvider.deleteAll()
+        }
+
         transformInvocation.inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput dirInput ->
+                println "transform src ${dirInput.file.name}"
+                dirInput.changedFiles.forEach {
+                    println "key: ${it.key} ,value: ${it.value}"
+                }
                 traceSrcFiles(dirInput, outputProvider, traceConfig)
             }
             input.jarInputs.each { JarInput jarInput ->
                 if (sysTraceConfig.isTraceJar) {
+                    println "transform jar ${jarInput.file.name}"
                     traceJarFiles(jarInput, outputProvider, traceConfig)
                 }
             }

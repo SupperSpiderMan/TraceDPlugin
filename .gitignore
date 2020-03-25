@@ -12,3 +12,8 @@
 /captures
 .externalNativeBuild
 .cxx
+/gradle.properties
+/gradlew
+/gradlew.bat
+/gradle/publish_jcenter.gradle
+/app/proguard-rules.pro

@@ -2,6 +2,7 @@ package com.jadyn.ai.transform
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.google.common.collect.ImmutableSet
 import com.jadyn.ai.trace_plugin.TraceClassVisitor
 import com.jadyn.ai.trace_plugin.TraceConfig
 import org.apache.commons.codec.digest.DigestUtils
@@ -39,12 +40,12 @@ class TraceDTransform extends Transform {
     // 输入范围，选择全部工程
     @Override
     Set<? super QualifiedContent.Scope> getScopes() {
-        return TransformManager.SCOPE_FULL_PROJECT
+        return ImmutableSet.of(QualifiedContent.Scope.PROJECT)
     }
 
     @Override
     boolean isIncremental() {
-        return false
+        return true
     }
 
     @Override
@@ -58,30 +59,30 @@ class TraceDTransform extends Transform {
         traceConfig.parseConfig()
 
         TransformOutputProvider outputProvider = transformInvocation.outputProvider
-        // 非增量编译就全部删除掉
-        if (outputProvider != null) {
-            outputProvider.deleteAll()
-        }
 
         transformInvocation.inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput dirInput ->
-                println "transform src ${dirInput.file.name}"
+                println "transform src ${dirInput.file.absolutePath}"
                 dirInput.changedFiles.forEach {
                     println "key: ${it.key} ,value: ${it.value}"
                 }
-                traceSrcFiles(dirInput, outputProvider, traceConfig)
+                traceSrcFiles(dirInput, outputProvider, traceConfig, isIncremental)
             }
             input.jarInputs.each { JarInput jarInput ->
-                if (sysTraceConfig.isTraceJar) {
+                if (sysTraceConfig.isTraceJar && jarInput.getStatus() != Status.REMOVED) {
                     println "transform jar ${jarInput.file.name}"
-                    traceJarFiles(jarInput, outputProvider, traceConfig)
+//                    traceJarFiles(jarInput, outputProvider, traceConfig)
                 }
             }
         }
     }
 
     private static void traceSrcFiles(DirectoryInput directoryInput, TransformOutputProvider outputProvider,
-                                      TraceConfig traceConfig) {
+                                      TraceConfig traceConfig, boolean isIncremental) {
+        if (isIncremental) {
+            
+        }
+
         if (directoryInput.file.isDirectory()) {
             directoryInput.file.eachFileRecurse { File file ->
                 def name = file.name

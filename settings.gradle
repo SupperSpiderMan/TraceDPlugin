@@ -1,3 +1,4 @@
 rootProject.name='TraceDPlugin'
 include ':app'
 include ':trace_plugin'
+include ':trace_extra'

@@ -4,24 +4,16 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
-/**
- * @version:
- * @FileDescription:
- * @Author:Jing
- * @Since:2020/3/23
- * @ChangeList:
- */
 public class TraceMethodVisitor extends AdviceAdapter {
 
     private String mClassName;
     private String mName;
     private String mMethodName;
-    private int mMaxSectionNameLength = 127;
 
-    protected TraceMethodVisitor(int api, MethodVisitor methodVisitor, int access, String name,
-                                 String descriptor,
-                                 String className,
-                                 TraceConfig traceConfig) {
+    TraceMethodVisitor(int api, MethodVisitor methodVisitor, int access, String name,
+                       String descriptor,
+                       String className,
+                       TraceConfig traceConfig) {
         super(api, methodVisitor, access, name, descriptor);
         mClassName = className;
         mName = name;
@@ -57,6 +49,7 @@ public class TraceMethodVisitor extends AdviceAdapter {
     private String generatorMethodName() {
         String sectionName = mMethodName;
         int length = sectionName.length();
+        int mMaxSectionNameLength = 127;
         if (length > mMaxSectionNameLength) {
             // 2020/3/23-18:28 从第一个参数开始截断
             int paramsIndex = sectionName.indexOf("(");

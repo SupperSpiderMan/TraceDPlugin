@@ -4,13 +4,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/**
- * @version:
- * @FileDescription:
- * @Author:Jing
- * @Since:2020/3/23
- * @ChangeList:
- */
 public class TraceClassVisitor extends ClassVisitor {
 
     private int mApi;

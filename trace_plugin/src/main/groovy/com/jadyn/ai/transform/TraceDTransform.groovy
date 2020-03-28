@@ -21,9 +21,12 @@ import java.util.zip.ZipEntry
 
 class TraceDTransform extends Transform {
     Project project
+    // 插件运行在application的Module还是在library
+    boolean isForApplication
 
-    TraceDTransform(Project project) {
+    TraceDTransform(Project project, boolean isForApplication) {
         this.project = project
+        this.isForApplication = isForApplication
     }
 
     @Override
@@ -40,7 +43,10 @@ class TraceDTransform extends Transform {
     // 输入范围，选择全部工程
     @Override
     Set<? super QualifiedContent.Scope> getScopes() {
-        return ImmutableSet.of(QualifiedContent.Scope.PROJECT)
+        if (isForApplication) {
+            return TransformManager.SCOPE_FULL_PROJECT
+        }
+        return ImmutableSet.of(QualifiedContent.Scope.EXTERNAL_LIBRARIES)
     }
 
     @Override
@@ -80,7 +86,7 @@ class TraceDTransform extends Transform {
     private static void traceSrcFiles(DirectoryInput directoryInput, TransformOutputProvider outputProvider,
                                       TraceConfig traceConfig, boolean isIncremental) {
         if (isIncremental) {
-            
+
         }
 
         if (directoryInput.file.isDirectory()) {

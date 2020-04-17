@@ -12,7 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
-/gradle/publish_jcenter.gradle
 /app/proguard-rules.pro
 /trace_extra/proguard-rules.pro
 /trace_extra/consumer-rules.pro

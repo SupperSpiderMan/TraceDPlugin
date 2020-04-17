@@ -1,0 +1,13 @@
+apply plugin: 'com.novoda.bintray-release' // 添加bintray插件
+
+//发布到 Bintray
+publish {
+
+    userOrg = 'ailoiii'
+    repoName = 'TraceDPlugin'
+    groupId = 'com.jadynai.ai'
+    artifactId = 'TraceDPlugin'
+    publishVersion = '1.0.0'
+    desc = 'trace method plugin'
+    website = 'https://github.com/JadynAi/TraceDPlugin'
+}

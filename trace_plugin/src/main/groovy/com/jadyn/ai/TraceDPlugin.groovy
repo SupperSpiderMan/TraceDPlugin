@@ -19,6 +19,6 @@ class TraceDPlugin implements Plugin<Project> {
             extension = project.getExtensions().findByType(LibraryExtension.class)
             isForApplication = false
         }
-        extension.registerTransform(new TraceDTransform(project))
+        extension.registerTransform(new TraceDTransform(project, isForApplication))
     }
 }

@@ -85,10 +85,6 @@ class TraceDTransform extends Transform {
 
     private static void traceSrcFiles(DirectoryInput directoryInput, TransformOutputProvider outputProvider,
                                       TraceConfig traceConfig, boolean isIncremental) {
-        if (isIncremental) {
-
-        }
-
         if (directoryInput.file.isDirectory()) {
             directoryInput.file.eachFileRecurse { File file ->
                 def name = file.name

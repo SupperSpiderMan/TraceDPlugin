@@ -5,7 +5,7 @@ publish {
 
     userOrg = 'ailoiii'
     repoName = 'TraceDPlugin'
-    groupId = 'com.jadynai.ai'
+    groupId = 'com.jadyn.ai'
     artifactId = 'TraceDPlugin'
     publishVersion = '1.0.0'
     desc = 'trace method plugin'

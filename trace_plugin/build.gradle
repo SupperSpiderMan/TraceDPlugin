@@ -1,4 +1,4 @@
-apply plugin: 'groovy'
+//apply plugin: 'groovy'
 apply plugin: 'java'
 
 repositories {
@@ -7,10 +7,10 @@ repositories {
 }
 
 sourceSets {
-    main {
-        groovy {
-            srcDir '../trace_plugin/src/main/groovy'
-        }
+    main {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+//        groovy {
+//            srcDir '../trace_plugin/src/main/groovy'
+//        }
         java {
             srcDir "../trace_plugin/src/main/java"
         }
@@ -22,11 +22,16 @@ sourceSets {
 
 dependencies {
     implementation gradleApi()
-    implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:3.6.1'
+//    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.6.3'
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-commons:7.1'
 }
+
+//compileGroovy {
+//    dependsOn tasks.getByPath('compileJava')
+//    classpath += files(compileJava.destinationDir)
+//}
 
 apply from: rootProject.file('gradle/publish_maven.gradle')
 apply from: rootProject.file('gradle/publish_jcenter.gradle')

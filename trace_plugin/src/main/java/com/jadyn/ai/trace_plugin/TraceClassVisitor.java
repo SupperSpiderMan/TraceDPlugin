@@ -12,6 +12,7 @@ public class TraceClassVisitor extends ClassVisitor {
     private String mClassName = "";
     private boolean mIsAbsClassOrInterface = false;
     private boolean mIsBeatClass = false;
+    private boolean mIsConfigTraceClass;
 
     public TraceClassVisitor(int api, ClassVisitor cv, TraceConfig traceConfig) {
         super(api, cv);
@@ -27,11 +28,18 @@ public class TraceClassVisitor extends ClassVisitor {
         if ((access & Opcodes.ACC_ABSTRACT) > 0 || (access & Opcodes.ACC_INTERFACE) > 0) {
             this.mIsAbsClassOrInterface = true;
         }
+
+        //插桩代码所属类
+//        String resultClassName = name.replace(".", "/")
+//        if (resultClassName == mTraceConfig.mBeatClass) {
+//            this.mIsBeatClass = true
+//        }
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-        if (mIsAbsClassOrInterface) {
+        boolean isConstructor = MethodFilter.isConstructor(name);
+        if (mIsAbsClassOrInterface || isConstructor) {
             return super.visitMethod(access, name, descriptor, signature, exceptions);
         } else {
             MethodVisitor mv = mCv.visitMethod(access, name, descriptor, signature, exceptions);

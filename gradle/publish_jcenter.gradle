@@ -7,7 +7,7 @@ publish {
     repoName = 'TraceDPlugin'
     groupId = 'com.jadyn.ai'
     artifactId = 'TraceDPlugin'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'trace method plugin'
     website = 'https://github.com/JadynAi/TraceDPlugin'
 }

@@ -4,6 +4,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
+import static com.jadyn.ai.trace_plugin.TraceBuildConstants.MAX_SECTION_NAME_LEN;
+
 public class TraceMethodVisitor extends AdviceAdapter {
 
     private String mClassName;
@@ -27,35 +29,27 @@ public class TraceMethodVisitor extends AdviceAdapter {
     @Override
     protected void onMethodEnter() {
         super.onMethodEnter();
-        String methodName = generatorMethodName();
-        mv.visitLdcInsn(methodName);
-        String invokeClass = "android/os/Trace";
-        String invokeMethodName = "beginTrace";
-        String paramDescriptor = "(Ljava/lang/String;)V";
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, invokeClass, invokeMethodName, paramDescriptor, false);
-        System.out.println("method trace: " + methodName);
+        mv.visitLdcInsn(generatorMethodName());
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "android/os/Trace", "beginTrace", "(Ljava/lang/String;)V", false);
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        super.onMethodExit(opcode);
-        mv.visitLdcInsn(generatorMethodName());
-        String invokeClass = "android/os/Trace";
-        String invokeMethodName = "endTrace";
-        String paramDescriptor = "()V";
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, invokeClass, invokeMethodName, paramDescriptor, false);
+        
+        // 2020/4/23-17:34 如果没有参数，就不需要这一句
+//        mv.visitLdcInsn(generatorMethodName());
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "android/os/Trace", "endTrace", "()V", false);
     }
 
     private String generatorMethodName() {
         String sectionName = mMethodName;
         int length = sectionName.length();
-        int mMaxSectionNameLength = 127;
-        if (length > mMaxSectionNameLength) {
+        if (length > MAX_SECTION_NAME_LEN) {
             // 2020/3/23-18:28 从第一个参数开始截断
             int paramsIndex = sectionName.indexOf("(");
             sectionName = sectionName.substring(0, paramsIndex);
-            if (sectionName.length() > mMaxSectionNameLength) {
-                sectionName = sectionName.substring(sectionName.length() - mMaxSectionNameLength);
+            if (sectionName.length() > MAX_SECTION_NAME_LEN) {
+                sectionName = sectionName.substring(sectionName.length() - MAX_SECTION_NAME_LEN);
             }
         }
         return sectionName;

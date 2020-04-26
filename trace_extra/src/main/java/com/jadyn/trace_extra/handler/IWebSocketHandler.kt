@@ -2,7 +2,7 @@ package com.jadyn.trace_extra.handler
 
 import com.koushikdutta.async.http.WebSocket
 
-interface IWebScoketHandler {
+interface IWebSocketHandler {
 
-    fun handle(webScoket: WebSocket, message: String?)
+    fun handle(webSocket: WebSocket, message: String?)
 }

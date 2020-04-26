@@ -8,13 +8,12 @@ import com.jadyn.trace_extra.producer.module.methodcost.MethodCostHelper
 import com.koushikdutta.async.http.WebSocket
 import org.json.JSONObject
 
-class WebScoketHandler : IWebScoketHandler {
+class WebSocketHandler : IWebSocketHandler {
 
-    override fun handle(webScoket: WebSocket, message: String?) {
-        val obj = JSONObject(message)
-        val moduleName = obj["moduleName"]
+    override fun handle(webSocket: WebSocket, message: String?) {
+        val obj = JSONObject(message ?: "null msg")
 
-        when (moduleName) {
+        when (obj["moduleName"]) {
             "OnlineMessage" -> {
                 LogUtil.i("接收到消息：传输设备基本信息")
                 DataProducer.producerAppInfo(AppInfo())

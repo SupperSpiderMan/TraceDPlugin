@@ -7,7 +7,7 @@ import android.os.Looper
 import com.jadyn.trace_extra.utils.LogUtil
 import com.jadyn.trace_extra.consumer.DataConsumer
 import com.jadyn.trace_extra.handler.HttpRequestHandler
-import com.jadyn.trace_extra.handler.WebScoketHandler
+import com.jadyn.trace_extra.handler.WebSocketHandler
 import com.jadyn.trace_extra.producer.module.appInfo.AppInfoProducer
 import com.jadyn.trace_extra.producer.module.methodcost.MethodCostProducer
 import com.koushikdutta.async.http.WebSocket
@@ -77,7 +77,7 @@ object MethodTraceServerManager {
 
     private fun setServerCallback(context: Context) {
         val httpRequestHandler = HttpRequestHandler(context, "methodtraceman")
-        val webSocketHandler = WebScoketHandler()
+        val webSocketHandler = WebSocketHandler()
 
         debugServer?.serverCallback = object : TraceManServer.ServerCallback {
             override fun onHttpRequest(

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 29
@@ -11,12 +12,10 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        consumerProguardFiles 'consumer-rules.pro'
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -25,11 +24,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//    implementation 'androidx.appcompat:appcompat:1.1.0'
-//    implementation 'androidx.core:core-ktx:1.2.0'
-
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "io.reactivex.rxjava2:rxjava:2.2.6"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+}
+
+publish {
+
+    userOrg = 'ailoiii'
+    repoName = 'TraceDPlugin'
+    groupId = 'com.jadyn.trace_extra'
+    artifactId = 'TraceDExtra'
+    publishVersion = '1.0.0'
+    desc = 'trace method extra'
+    website = 'https://github.com/JadynAi/TraceDPlugin'
 }

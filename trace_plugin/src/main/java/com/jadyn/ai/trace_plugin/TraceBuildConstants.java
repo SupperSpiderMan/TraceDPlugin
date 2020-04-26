@@ -20,9 +20,8 @@ public class TraceBuildConstants {
 
     public final static int MAX_SECTION_NAME_LEN = 127;
 
-    public final static String MATRIX_TRACE_METHOD_BEAT_CLASS = "android/os/Trace";
+    public final static String TRACE_CLASS = "com.jadyn.trace_extra.TraceD";
+    public static final String TRACE_METHOD_START = "start";
+    public static final String TRACE_METHOD_END = "end";
     public static final String[] UN_TRACE_CLASS = {"R.class", "R$", "Manifest", "BuildConfig"};
-    public final static String DEFAULT_BLACK_TRACE =
-                    "[package]\n"
-                    + "-keepclass com/sample/systrace/TraceTag\n";
 }

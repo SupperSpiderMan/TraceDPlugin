@@ -30,15 +30,16 @@ public class TraceMethodVisitor extends AdviceAdapter {
     protected void onMethodEnter() {
         super.onMethodEnter();
         mv.visitLdcInsn(generatorMethodName());
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "android/os/Trace", "beginTrace", "(Ljava/lang/String;)V", false);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, TraceBuildConstants.TRACE_CLASS, TraceBuildConstants.TRACE_METHOD_START,
+                "(Ljava/lang/String;)V", false);
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        
-        // 2020/4/23-17:34 如果没有参数，就不需要这一句
-//        mv.visitLdcInsn(generatorMethodName());
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "android/os/Trace", "endTrace", "()V", false);
+        // 2020/4/23-17:34 如果没有要插入的函数没有参数，就不需要这一句
+        mv.visitLdcInsn(generatorMethodName());
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, TraceBuildConstants.TRACE_CLASS, TraceBuildConstants.TRACE_METHOD_END,
+                "(Ljava/lang/String;)V", false);
     }
 
     private String generatorMethodName() {

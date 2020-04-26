@@ -23,15 +23,18 @@ allprojects {
         jcenter()
     }
 
-//    tasks.withType(Javadoc) {
-//        options {
-//            encoding "UTF-8"
-//            charSet 'UTF-8'
-//            links "http://docs.oracle.com/javase/7/docs/api"
-//        }
-//    }
+    tasks.withType(Javadoc) {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/7/docs/api"
+        }
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// 上传bintray的时候，javaDoc会报错，找不到android.os包
+tasks.getByPath(":trace_extra:javadocRelease").enabled = false

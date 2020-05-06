@@ -1,2 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jadyn.trace_extra" />
+    package="com.jadyn.trace_extra">
+
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <application>
+        <provider
+            android:name=".TraceDProvider"
+            android:authorities="${applicationId}.contentprovider"
+            android:exported="false" />
+    </application>
+
+</manifest>

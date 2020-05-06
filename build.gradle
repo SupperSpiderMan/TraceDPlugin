@@ -15,6 +15,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+   
 }
 
 allprojects {
@@ -27,9 +28,10 @@ allprojects {
         options {
             encoding "UTF-8"
             charSet 'UTF-8'
-            links "http://docs.oracle.com/javase/7/docs/api"
+//            links "http://docs.oracle.com/javase/7/docs/api"
         }
     }
+    
 }
 
 task clean(type: Delete) {
@@ -37,4 +39,5 @@ task clean(type: Delete) {
 }
 
 // 上传bintray的时候，javaDoc会报错，找不到android.os包
-tasks.getByPath(":trace_extra:javadocRelease").enabled = false
+//tasks.getByPath(":trace_extra:javadocRelease").enabled = false
+

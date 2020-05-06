@@ -16,14 +16,14 @@ import com.koushikdutta.async.http.server.AsyncHttpServerResponse
 
 object MethodTraceServerManager {
 
-    const val DEBUG_SERVER_TAG = "MethodTraceMan"
+    const val DEBUG_SERVER_TAG = "MethodTraceD"
     const val DEBUG_SERVER_PORT = 5392
 
     const val APPINFO = "appInfo"
     const val METHODCOST = "methodCost"
 
     private var isServerRunning = false
-    private var debugServer: TraceManServer? = null
+    private var debugServer: TraceDServer? = null
     private var dataConsumer: DataConsumer? = null
 
     private var dataModules = HashMap<String, Any>()
@@ -59,7 +59,7 @@ object MethodTraceServerManager {
 
         isServerRunning = true
 
-        debugServer = TraceManServer(port)
+        debugServer = TraceDServer(port)
 
         setServerCallback(context)
 
@@ -69,7 +69,7 @@ object MethodTraceServerManager {
 
         dataConsumer?.observe()
 
-        LogUtil.i("MethodTraceMan Server is running")
+        LogUtil.i("MethodTrace Server is running")
         LogUtil.i("http://${getIPAddress(context)}:$port/index.html")
 
     }
@@ -79,7 +79,7 @@ object MethodTraceServerManager {
         val httpRequestHandler = HttpRequestHandler(context, "methodtraceman")
         val webSocketHandler = WebSocketHandler()
 
-        debugServer?.serverCallback = object : TraceManServer.ServerCallback {
+        debugServer?.serverCallback = object : TraceDServer.ServerCallback {
             override fun onHttpRequest(
                 request: AsyncHttpServerRequest,
                 response: AsyncHttpServerResponse
@@ -115,7 +115,7 @@ object MethodTraceServerManager {
         dataConsumer = null
 
         isServerRunning = false
-        LogUtil.i("MethodTraceMan Server Stopped.")
+        LogUtil.i("MethodTrace Server Stopped.")
     }
 
     private fun isInMainThread(): Boolean {
@@ -131,7 +131,7 @@ object MethodTraceServerManager {
     private fun getIPAddress(context: Context): String {
         @SuppressLint("WifiManagerPotentialLeak")
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val ipAddress = wifiManager?.connectionInfo?.ipAddress ?: 0
+        val ipAddress = wifiManager.connectionInfo?.ipAddress ?: 0
 
         @SuppressLint("DefaultLocale")
         val formattedIpAddress = String.format(

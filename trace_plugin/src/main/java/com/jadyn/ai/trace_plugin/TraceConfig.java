@@ -16,7 +16,6 @@
 
 package com.jadyn.ai.trace_plugin;
 
-import java.io.File;
 import java.util.HashSet;
 
 public class TraceConfig {
@@ -26,9 +25,9 @@ public class TraceConfig {
     private HashSet<String> pacListSet;
 
     public void parseConfig() {
-        File file = new File(pacFilePath);
-        if (!file.exists()) {
-        }
+//        File file = new File(pacFilePath);
+//        if (!file.exists()) {
+//        }
     }
 
     public boolean isNeedTraceClass(String fileName) {

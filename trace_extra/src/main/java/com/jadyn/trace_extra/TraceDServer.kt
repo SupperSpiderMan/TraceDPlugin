@@ -9,7 +9,7 @@ import com.koushikdutta.async.http.server.AsyncHttpServerRequest
 import com.koushikdutta.async.http.server.AsyncHttpServerResponse
 import java.util.*
 
-class TraceManServer {
+class TraceDServer {
 
     private var port: Int = 0
     private var server: AsyncHttpServer

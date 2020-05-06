@@ -3,7 +3,6 @@ package com.jadyn.ai;
 import com.android.build.gradle.AppExtension;
 import com.android.build.gradle.BaseExtension;
 import com.android.build.gradle.LibraryExtension;
-import com.jadyn.TraceDTransform;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

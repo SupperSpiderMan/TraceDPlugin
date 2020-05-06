@@ -3,7 +3,7 @@ package com.jadyn.trace_extra.consumer
 import com.jadyn.trace_extra.MethodTraceServerManager
 import com.jadyn.trace_extra.MethodTraceServerManager.APPINFO
 import com.jadyn.trace_extra.MethodTraceServerManager.METHODCOST
-import com.jadyn.trace_extra.TraceManServer
+import com.jadyn.trace_extra.TraceDServer
 import com.jadyn.trace_extra.utils.LogUtil
 import com.jadyn.trace_extra.model.Message
 import com.jadyn.trace_extra.producer.module.appInfo.AppInfoProducer
@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class DataConsumer(var server: TraceManServer) {
+class DataConsumer(var server: TraceDServer) {
 
     private var compositeDisposables: CompositeDisposable = CompositeDisposable()
 

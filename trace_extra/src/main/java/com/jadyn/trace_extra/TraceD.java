@@ -57,7 +57,7 @@ public class TraceD {
      */
     public static List<MethodInfo> obtainMethodCostData() {
         synchronized (methodList) {
-            List<MethodInfo> resultList = new ArrayList();
+            ArrayList resultList = new ArrayList();
             for (int i = 0; i < methodList.size(); i++) {
                 Entity startEntity = methodList.get(i);
                 if (!startEntity.isStart) {

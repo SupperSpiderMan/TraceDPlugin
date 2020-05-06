@@ -4,9 +4,8 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import com.jadyn.trace_extra.MethodTraceServerManager
 
-class TraceManProvider : ContentProvider() {
+class TraceDProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         return null
     }

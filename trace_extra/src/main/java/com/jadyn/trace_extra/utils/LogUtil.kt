@@ -9,7 +9,6 @@ class LogUtil {
 
     companion object {
 
-
         @JvmStatic
         fun detail(message: String?) {
             if (MethodTraceServerManager.logLevel == MTM_LOG_DETAIL) {

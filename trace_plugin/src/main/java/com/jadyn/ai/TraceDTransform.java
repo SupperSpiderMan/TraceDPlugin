@@ -1,10 +1,9 @@
-package com.jadyn;
+package com.jadyn.ai;
 
 import com.android.build.api.transform.DirectoryInput;
 import com.android.build.api.transform.Format;
 import com.android.build.api.transform.JarInput;
 import com.android.build.api.transform.QualifiedContent;
-import com.android.build.api.transform.Status;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
@@ -13,7 +12,6 @@ import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.android.utils.FileUtils;
 import com.google.common.collect.ImmutableSet;
-import com.jadyn.ai.TraceDExtension;
 import com.jadyn.ai.trace_plugin.TraceClassVisitor;
 import com.jadyn.ai.trace_plugin.TraceConfig;
 
@@ -59,7 +57,7 @@ public class TraceDTransform extends Transform {
 
     @Override
     public String getName() {
-        return "TraceMethodTransform";
+        return "traceMethodTransform";
     }
 
     @Override
@@ -83,7 +81,7 @@ public class TraceDTransform extends Transform {
     @Override
     public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
 //        super.transform(transformInvocation);
-        println("start transform");
+        println("start transform 111");
         boolean isIncremental = transformInvocation.isIncremental() && isIncremental();
         TraceDExtension sysTraceConfig = sysTrace;
         TraceConfig traceConfig = new TraceConfig();
@@ -107,23 +105,22 @@ public class TraceDTransform extends Transform {
                 }
             });
             transformInput.getJarInputs().forEach(jarInput -> {
-                if (sysTraceConfig.isTraceJar && jarInput.getStatus() != Status.REMOVED) {
-                    println("transform jar: " + jarInput.getFile().getName());
-                    try {
-//                        traceJarFiles(jarInput, outputProvider, traceConfig);
-                    } catch (Exception e) {
-                        println("trace jar file exception " + e);
-                    }
+                try {
+                    traceJarFiles(jarInput, outputProvider, traceConfig);
+                } catch (Exception e) {
+                    println("trace jar file exception " + e);
                 }
+//                if (jarInput.getStatus() != Status.REMOVED) {
+//                    println("transform jar: " + jarInput.getFile().getName());
+//                }
             });
         });
     }
 
-    private void traceSrcFiles(DirectoryInput directoryInput, TransformOutputProvider outputProvider,
+    private static void traceSrcFiles(DirectoryInput directoryInput, TransformOutputProvider outputProvider,
                                TraceConfig traceConfig, boolean isIncremental) throws Exception {
-        File fileRoot = directoryInput.getFile();
-        if (fileRoot.isDirectory()) {
-            for (File file : FileUtils.getAllFiles(fileRoot)) {
+        if (directoryInput.getFile().isDirectory()) {
+            for (File file : FileUtils.getAllFiles(directoryInput.getFile())) {
                 String name = file.getName();
                 println("file name : " + name);
                 if (traceConfig.isNeedTraceClass(name)) {
@@ -140,13 +137,13 @@ public class TraceDTransform extends Transform {
         }
         File dest = outputProvider.getContentLocation(directoryInput.getName(), directoryInput.getContentTypes(), directoryInput.getScopes(),
                 Format.DIRECTORY);
-        org.apache.commons.io.FileUtils.copyDirectory(fileRoot, dest);
+        org.apache.commons.io.FileUtils.copyDirectory(directoryInput.getFile(), dest);
     }
 
-    private void traceJarFiles(JarInput jarInput, TransformOutputProvider outputProvider, TraceConfig traceConfig) throws Exception {
+    private static void traceJarFiles(JarInput jarInput, TransformOutputProvider outputProvider, TraceConfig traceConfig) throws Exception {
         if (jarInput.getFile().getAbsolutePath().endsWith(".jar")) {
             String jarName = jarInput.getName();
-            String md5Name = DigestUtils.md2Hex(jarInput.getFile().getAbsolutePath());
+            String md5Name = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
             if (jarName.endsWith(".jar")) {
                 jarName = jarName.substring(0, jarName.length() - 4);
             }
@@ -164,9 +161,9 @@ public class TraceDTransform extends Transform {
                 String entryName = jarEntry.getName();
                 ZipEntry zipEntry = new ZipEntry(entryName);
                 InputStream inputStream = jarFile.getInputStream(jarEntry);
-                if (traceConfig.isNeedTraceClass(entryName)) {
+                if (false && traceConfig.isNeedTraceClass(entryName)) {
                     jarOutputStream.putNextEntry(zipEntry);
-                    ClassReader classReader = new ClassReader(getBytes(inputStream));
+                    ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream));
                     ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS);
                     ClassVisitor cv = new TraceClassVisitor(Opcodes.ASM5, classWriter, traceConfig);
                     classReader.accept(cv, EXPAND_FRAMES);
@@ -185,14 +182,14 @@ public class TraceDTransform extends Transform {
             //处理完输出给下一任务作为输入
             File dest = outputProvider.getContentLocation(jarName + md5Name,
                     jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
-            FileUtils.copyFile(tmpFile, dest);
+            org.apache.commons.io.FileUtils.copyFile(tmpFile, dest);
 
             tmpFile.delete();
         }
     }
 
 
-    private void println(String s) {
+    private static void println(String s) {
         String s1 = "TraceD :" + s;
         System.out.println(s1);
     }

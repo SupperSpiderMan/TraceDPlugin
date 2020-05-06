@@ -7,10 +7,7 @@ repositories {
 }
 
 sourceSets {
-    main {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-//        groovy {
-//            srcDir '../trace_plugin/src/main/groovy'
-//        }
+    main {
         java {
             srcDir "../trace_plugin/src/main/java"
         }
@@ -22,12 +19,15 @@ sourceSets {
 
 dependencies {
     implementation gradleApi()
-//    implementation localGroovy()
     implementation 'com.android.tools.build:gradle:3.6.3'
-    implementation 'org.ow2.asm:asm:7.1'
-    implementation 'org.ow2.asm:asm-commons:7.1'
+    implementation 'org.ow2.asm:asm:8.0.1'
+    implementation 'org.ow2.asm:asm-commons:8.0.1'
 }
 
+//compileJava {
+//    version JavaVersion.VERSION_1_8
+//}
+version(JavaVersion.VERSION_1_8)
 //compileGroovy {
 //    dependsOn tasks.getByPath('compileJava')
 //    classpath += files(compileJava.destinationDir)

@@ -23,5 +23,5 @@ public class TraceBuildConstants {
     public final static String TRACE_CLASS = "com.jadyn.trace_extra.TraceD";
     public static final String TRACE_METHOD_START = "start";
     public static final String TRACE_METHOD_END = "end";
-    public static final String[] UN_TRACE_CLASS = {"R.class", "R$", "Manifest", "BuildConfig"};
+    public static final String[] UN_TRACE_CLASS = {"R.class", "R$", "Manifest", "BuildConfig", "TraceD"};
 }
